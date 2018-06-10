@@ -219,11 +219,20 @@ function roll()
 			sqs[a1].addEventListener("click", movea1);
 			flag++;
 		}
-		if((a2 !== -1)&&(27-a2 >= dval))
+		if((a2 !== a1)&&(a2 !== -1)&&(27-a2 >= dval))
 		{
 			sqs[a2].addEventListener("click", movea2);
 			flag++;
 		}
+		if(flag === 1)
+		{
+			if((dval === 6)&&((a1 === -1)||(a2 === -1)))
+				release();
+			else if((a1 !== -1)&&(27-a1 >= dval))
+				movea1();
+			else
+				movea2();
+		}		
 	}
 	else
 	{
@@ -242,8 +251,17 @@ function roll()
 			sqs[(b2+14)%28].addEventListener("click", moveb2);
 			flag++;
 		}
+		if(flag === 1)
+		{
+			if((dval === 6)&&((b1 === -1)||(b2 === -1)))
+				release();
+			else if((b1 !== -1)&&(27-b1 >= dval))
+				moveb1();
+			else
+				moveb2();
+		}
 	}
-	if((flag === 0)&&(dval !== 6))
+	if(flag === 0)
 	{
 		turn = !turn;
 		if(turn)
@@ -251,8 +269,8 @@ function roll()
 		else
 			$("#roll").css("background-color", "rgb(100,100,250)");	
 	}
-	else if(flag > 0)
+	else if(flag > 1)
 		$("#roll")[0].removeEventListener("click", roll) ;
 }
-$("#roll")[0].addEventListener("click", roll) ;
+$("#roll")[0].addEventListener("click", roll);
 });
